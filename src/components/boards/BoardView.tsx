@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase/client';
-import { Column, Card, ColumnWithCards, Label, BoardMember, BoardViewType, CardPriority } from '@/types/database';
+import { Column, Card, ColumnWithCards, Label, BoardMember, CardPriority } from '@/types/database';
 import { KanbanColumn } from './KanbanColumn';
 import { BoardSettingsModal } from './BoardSettingsModal';
 import { 
@@ -46,7 +46,7 @@ interface BoardMemberWithProfile extends BoardMember {
 }
 
 export function BoardView({ boardId }: BoardViewProps) {
-  const { user, session } = useAuth();
+  const { user } = useAuth();
   const [boardTitle, setBoardTitle] = useState('');
   const [columns, setColumns] = useState<ColumnWithCards[]>([]);
   const [labels, setLabels] = useState<Label[]>([]);
@@ -87,15 +87,15 @@ export function BoardView({ boardId }: BoardViewProps) {
       cards: column.cards.filter(card => {
         // Filter by labels
         if (filters.labels && filters.labels.length > 0) {
-          const cardLabels = card.label_ids || [];
-          if (!filters.labels.some(labelId => cardLabels.includes(labelId))) {
+          const cardLabelIds = card.labels?.map(l => l.id) || [];
+          if (!filters.labels.some(labelId => cardLabelIds.includes(labelId))) {
             return false;
           }
         }
         
         // Filter by assignees
         if (filters.assignees && filters.assignees.length > 0) {
-          if (!card.assignee_id || !filters.assignees.includes(card.assignee_id)) {
+          if (!card.assignee || !filters.assignees.includes(card.assignee)) {
             return false;
           }
         }
@@ -567,9 +567,6 @@ export function BoardView({ boardId }: BoardViewProps) {
       </div>
     );
   }
-
-  // Check if user has access (is a member)
-  const hasAccess = currentUserRole !== null;
 
   return (
     <div className="h-full flex flex-col">

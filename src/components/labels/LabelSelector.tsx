@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { Label, LABEL_COLORS } from '@/types/database';
-import { LabelBadge } from './LabelBadge';
-import { Check, Plus, X, Loader2 } from 'lucide-react';
+import { Check, Plus, Loader2 } from 'lucide-react';
 
 interface LabelSelectorProps {
   boardLabels: Label[];

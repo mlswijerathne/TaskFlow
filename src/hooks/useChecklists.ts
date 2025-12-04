@@ -141,7 +141,8 @@ export function useChecklists(cardId: string): UseChecklistsReturn {
     return () => {
       channels.forEach(channel => supabase.removeChannel(channel));
     };
-  }, [cardId, checklists.map(cl => cl.id).join(',')]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardId, checklists.length]);
 
   const handleChecklistChange = (payload: RealtimePostgresChangesPayload<Checklist>) => {
     const { eventType, new: newChecklist, old: oldChecklist } = payload;

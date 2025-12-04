@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { AuthForm } from '@/components/auth';
-import { Loader2, Layers, Home, MessageSquare, Mail, Globe, Clock, CheckCircle2, BarChart3, Zap } from 'lucide-react';
+import { Loader2, Layers, Home } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AuthPage() {

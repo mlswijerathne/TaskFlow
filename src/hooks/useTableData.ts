@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -591,7 +591,7 @@ export function useTableData(
             } else {
               results.created++;
             }
-          } catch (rowError) {
+          } catch (_rowError) {
             results.errors.push(`Row ${i}: Parse error`);
           }
         }

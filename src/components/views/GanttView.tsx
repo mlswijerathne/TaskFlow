@@ -149,7 +149,7 @@ function GanttBar({
   task,
   startDate,
   dayWidth,
-  rowHeight,
+  rowHeight: _rowHeight,
   onResize,
   onClick,
   isSelected,
@@ -254,11 +254,11 @@ interface TimelineHeaderProps {
 }
 
 function TimelineHeader({ startDate, dayCount, dayWidth, zoomLevel }: TimelineHeaderProps) {
-  const today = new Date();
   const config = ZOOM_CONFIGS[zoomLevel];
   
   // Generate header cells based on zoom level
   const headers = useMemo(() => {
+    const today = new Date();
     const cells: { date: Date; label: string; width: number; isToday: boolean }[] = [];
     let currentDate = new Date(startDate);
     
@@ -301,7 +301,7 @@ function TimelineHeader({ startDate, dayCount, dayWidth, zoomLevel }: TimelineHe
     }
     
     return cells;
-  }, [startDate, dayCount, dayWidth, config.headerFormat, today]);
+  }, [startDate, dayCount, dayWidth, config.headerFormat]);
 
   return (
     <div className="flex border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 sticky top-0 z-10">
@@ -345,10 +345,10 @@ function TaskRow({
   onSelect,
   onResize,
 }: TaskRowProps) {
-  const today = new Date();
 
   // Generate grid lines for days
   const gridCells = useMemo(() => {
+    const today = new Date();
     const cells: { date: Date; isToday: boolean; isWeekend: boolean }[] = [];
     let currentDate = new Date(startDate);
     
@@ -362,7 +362,7 @@ function TaskRow({
     }
     
     return cells;
-  }, [startDate, dayCount, today]);
+  }, [startDate, dayCount]);
 
   return (
     <div className="relative flex" style={{ height: `${rowHeight}px` }}>
@@ -408,9 +408,9 @@ function TaskRow({
 // ============================================================================
 export function GanttView({
   boardId,
-  columns,
-  labels,
-  members,
+  columns: _columns,
+  labels: _labels,
+  members: _members,
   filters,
   onCardClick,
   onTaskUpdate,
@@ -421,7 +421,7 @@ export function GanttView({
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
 
-  const { tasks, dependencies, loading, error, updateTaskDates } = useGanttData(
+  const { tasks, dependencies: _dependencies, loading, error, updateTaskDates } = useGanttData(
     boardId,
     { filters, settings: { groupBy, viewMode: zoomLevel, showDependencies: true, showProgress: true, sortBy: 'start_date', sortDirection: 'asc' } }
   );

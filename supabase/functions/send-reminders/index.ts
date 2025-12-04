@@ -10,9 +10,9 @@ declare const Deno: {
   };
 };
 
-// @ts-ignore: Deno URL import
+// @ts-expect-error: Deno URL import
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-// @ts-ignore: Deno URL import
+// @ts-expect-error: Deno URL import
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
