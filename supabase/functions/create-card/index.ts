@@ -9,7 +9,7 @@ declare const Deno: {
   };
 };
 
-// @ts-ignore: Deno module
+// @ts-expect-error: Deno module
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {

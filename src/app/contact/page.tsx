@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
-import { Mail, Phone, Clock, Send, Loader2, CheckCircle2, MessageSquare, Headphones, Building } from 'lucide-react';
+import { Mail, Phone, Clock, Send, Loader2, CheckCircle2, MessageSquare, Headphones, Building, MapPin } from 'lucide-react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -85,7 +85,7 @@ export default function ContactPage() {
                 Get in Touch
               </h1>
               <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300">
-                Have questions about TaskFlow? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                Have questions about TaskFlow? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.
               </p>
             </div>
           </div>
@@ -146,7 +146,7 @@ export default function ContactPage() {
                       Message Sent!
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-6">
-                      Thank you for reaching out. We'll get back to you within 24 hours.
+                      Thank you for reaching out. We&apos;ll get back to you within 24 hours.
                     </p>
                     <button
                       onClick={() => setSubmitted(false)}

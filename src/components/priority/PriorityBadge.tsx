@@ -1,7 +1,7 @@
 'use client';
 
 import { CardPriority, PRIORITY_CONFIG } from '@/types/database';
-import { AlertTriangle, ArrowDown, ArrowUp, Flame } from 'lucide-react';
+import { ArrowDown, ArrowUp, Flame } from 'lucide-react';
 
 interface PriorityBadgeProps {
   priority: CardPriority;

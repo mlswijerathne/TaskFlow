@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Card, Label, BoardMember, CalendarEvent, Column } from '@/types/database';
 import { useCalendarEvents, CalendarFilter, CalendarRange } from '@/hooks/useCalendarEvents';
 
@@ -584,9 +584,9 @@ function DayView({ currentDate, events, onEventClick, onHourClick }: DayViewProp
 // ============================================================================
 export function CalendarView({
   boardId,
-  columns,
-  labels,
-  members,
+  columns: _columns,
+  labels: _labels,
+  members: _members,
   filters,
   onCardClick,
   onDateClick,

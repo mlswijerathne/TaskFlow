@@ -410,7 +410,7 @@ export interface CrossViewDragContextValue {
 //   <CurrentViewComponent />
 // </CrossViewDragProvider>
 
-export default {
+const dndUtils = {
   useDragAndDrop,
   useDropZone,
   useDraggable,
@@ -420,3 +420,5 @@ export default {
   createTableDropHandler,
   DragPreview,
 };
+
+export default dndUtils;

@@ -24,6 +24,42 @@ export function useBoardPresence(boardId: string): UseBoardPresenceReturn {
   const channelRef = useRef<RealtimeChannel | null>(null);
   const presenceStateRef = useRef<PresenceState | null>(null);
 
+  // Update online users from presence state - defined first to be used in useEffect
+  const updateOnlineUsers = useCallback((state: Record<string, PresenceState[]>) => {
+    const users: OnlineUser[] = [];
+    const typing: OnlineUser[] = [];
+    const editing = new Map<string, OnlineUser>();
+
+    Object.entries(state).forEach(([oderId, presences]) => {
+      // Get the most recent presence for this user
+      const presence = presences[0];
+      if (!presence) return;
+
+      const onlineUser: OnlineUser = {
+        userId: oderId,
+        displayName: presence.display_name,
+        avatarUrl: presence.avatar_url,
+        editingCardId: presence.editingCardId,
+        isTyping: presence.isTyping,
+        lastSeen: presence.lastSeen,
+      };
+
+      users.push(onlineUser);
+
+      if (presence.isTyping) {
+        typing.push(onlineUser);
+      }
+
+      if (presence.editingCardId) {
+        editing.set(presence.editingCardId, onlineUser);
+      }
+    });
+
+    setOnlineUsers(users);
+    setTypingUsers(typing);
+    setEditingUsers(editing);
+  }, []);
+
   // Initialize presence state
   useEffect(() => {
     if (!user || !boardId) return;
@@ -85,43 +121,7 @@ export function useBoardPresence(boardId: string): UseBoardPresenceReturn {
         channelRef.current = null;
       }
     };
-  }, [user, boardId]);
-
-  // Update online users from presence state
-  const updateOnlineUsers = useCallback((state: Record<string, PresenceState[]>) => {
-    const users: OnlineUser[] = [];
-    const typing: OnlineUser[] = [];
-    const editing = new Map<string, OnlineUser>();
-
-    Object.entries(state).forEach(([oderId, presences]) => {
-      // Get the most recent presence for this user
-      const presence = presences[0];
-      if (!presence) return;
-
-      const onlineUser: OnlineUser = {
-        userId: oderId,
-        displayName: presence.display_name,
-        avatarUrl: presence.avatar_url,
-        editingCardId: presence.editingCardId,
-        isTyping: presence.isTyping,
-        lastSeen: presence.lastSeen,
-      };
-
-      users.push(onlineUser);
-
-      if (presence.isTyping) {
-        typing.push(onlineUser);
-      }
-
-      if (presence.editingCardId) {
-        editing.set(presence.editingCardId, onlineUser);
-      }
-    });
-
-    setOnlineUsers(users);
-    setTypingUsers(typing);
-    setEditingUsers(editing);
-  }, []);
+  }, [user, boardId, updateOnlineUsers]);
 
   // Set typing status
   const setTyping = useCallback(async (isTyping: boolean) => {

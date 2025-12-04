@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { Mail, Lock, Loader2, Github, ArrowLeft, Eye, EyeOff } from 'lucide-react';
+import { Loader2, Github, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 
 type AuthMode = 'signin' | 'signup' | 'forgot-password';
 

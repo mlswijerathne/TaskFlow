@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase/client';
-import { Board, BoardTemplate } from '@/types/database';
+import { Board } from '@/types/database';
 import { Plus, LayoutDashboard, Loader2, Trash2, Edit2, LayoutTemplate } from 'lucide-react';
 import { TemplateGalleryModal } from '@/components/templates';
 import { useBoardTemplates } from '@/hooks';

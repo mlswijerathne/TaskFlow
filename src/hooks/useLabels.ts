@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase/client';
-import { Label, LabelInsert, CardLabel } from '@/types/database';
+import { Label, LabelInsert } from '@/types/database';
 import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 
 interface UseLabelsReturn {
@@ -169,7 +169,7 @@ export function useLabels(boardId: string): UseLabelsReturn {
 /**
  * Hook to manage labels assigned to a specific card
  */
-export function useCardLabels(cardId: string, boardId: string): UseCardLabelsReturn {
+export function useCardLabels(cardId: string, _boardId: string): UseCardLabelsReturn {
   const [cardLabels, setCardLabels] = useState<Label[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { NotificationBell } from '@/components/notifications';
-import { Layers, LogOut, User, ChevronDown } from 'lucide-react';
+import { Layers, LogOut, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -34,7 +34,6 @@ export function useViewState(boardId: string): UseViewStateReturn {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [isInitialized, setIsInitialized] = useState(false);
   
   const [viewState, setViewState] = useState<ViewState>(() => {
     // Initialize from URL params if available
@@ -59,14 +58,15 @@ export function useViewState(boardId: string): UseViewStateReturn {
     };
   });
 
-  // Mark as initialized after first render
+  // Use ref for initialization tracking to avoid triggering effect on first render
+  const isInitializedRef = useRef(false);
   useEffect(() => {
-    setIsInitialized(true);
+    isInitializedRef.current = true;
   }, []);
 
   // Update URL when view state changes (after initialization)
   useEffect(() => {
-    if (!isInitialized || !viewState?.filters) return;
+    if (!isInitializedRef.current || !viewState?.filters) return;
 
     const params = new URLSearchParams();
     const filters = viewState.filters;
@@ -94,7 +94,7 @@ export function useViewState(boardId: string): UseViewStateReturn {
     const newUrl = queryString ? `${pathname}?${queryString}` : pathname;
     
     router.replace(newUrl, { scroll: false });
-  }, [isInitialized, viewState, pathname, router]);
+  }, [viewState, pathname, router]);
 
   // Set current view
   const setCurrentView = useCallback((view: BoardViewType) => {
@@ -213,9 +213,19 @@ export function useViewState(boardId: string): UseViewStateReturn {
     }
   }, [user, boardId, searchParams]);
 
-  // Load preferences on mount
+  // Load preferences on mount - useEffect is appropriate here as we're
+  // synchronizing with an external system (database)
   useEffect(() => {
-    loadPreferences();
+    let mounted = true;
+    const load = async () => {
+      if (mounted) {
+        await loadPreferences();
+      }
+    };
+    load();
+    return () => {
+      mounted = false;
+    };
   }, [loadPreferences]);
 
   // Check if any filters are active
