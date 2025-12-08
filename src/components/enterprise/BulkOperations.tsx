@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { bulkCreateCards, bulkMoveCards, bulkDeleteCards } from '@/lib/edgeFunctions';
+import { bulkCreateCards } from '@/lib/edgeFunctions';
 import { toast } from 'react-hot-toast';
 
 interface BulkOperationsProps {

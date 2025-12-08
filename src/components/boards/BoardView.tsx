@@ -54,6 +54,7 @@ export function BoardView({ boardId }: BoardViewProps) {
   const [members, setMembers] = useState<BoardMemberWithProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCard, setActiveCard] = useState<Card | null>(null);
+  const [activeColumn, setActiveColumn] = useState<ColumnWithCards | null>(null);
   const [showAddColumn, setShowAddColumn] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState('');
   const [showSettingsModal, setShowSettingsModal] = useState(false);
