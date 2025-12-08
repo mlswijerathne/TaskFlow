@@ -7,9 +7,6 @@ import {
   BoardTemplate,
   BoardTemplateWithDetails,
   TemplateCategory,
-  TemplateColumn,
-  TemplateLabel,
-  TemplateCard,
 } from '@/types/database';
 
 interface UseBoardTemplatesReturn {

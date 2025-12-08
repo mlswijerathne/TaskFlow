@@ -5,7 +5,6 @@ import {
   BoardTemplate, 
   TEMPLATE_CATEGORIES, 
   TemplateWithDetails,
-  TemplateColumn,
   TemplateCard as TemplateCardType,
 } from '@/types/database';
 import { useBoardTemplates } from '@/hooks';
@@ -344,7 +343,7 @@ export function TemplateGalleryModal({
   onClose,
   onSelectTemplate,
   mode = 'create',
-  currentBoardId,
+  currentBoardId: _currentBoardId,
 }: TemplateGalleryModalProps) {
   const { publicTemplates, loading: loadingSystem, getTemplateDetails } = useBoardTemplates();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);

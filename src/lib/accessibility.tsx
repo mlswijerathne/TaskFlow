@@ -365,11 +365,13 @@ export function SkipLink({ targetId, children }: { targetId: string; children: R
 // Reduced Motion Hook
 // ============================================================================
 export function useReducedMotion(): boolean {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
 
     const handler = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches);
@@ -386,11 +388,13 @@ export function useReducedMotion(): boolean {
 // High Contrast Hook
 // ============================================================================
 export function useHighContrast(): boolean {
-  const [highContrast, setHighContrast] = useState(false);
+  const [highContrast, setHighContrast] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(forced-colors: active)').matches;
+  });
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(forced-colors: active)');
-    setHighContrast(mediaQuery.matches);
 
     const handler = (e: MediaQueryListEvent) => {
       setHighContrast(e.matches);
@@ -441,7 +445,7 @@ export function announceFiltersCleared() {
 // ============================================================================
 // Export
 // ============================================================================
-export default {
+const accessibilityUtils = {
   ARIA_LABELS,
   announce,
   useFocusTrap,
@@ -457,3 +461,5 @@ export default {
   announceFilterApplied,
   announceFiltersCleared,
 };
+
+export default accessibilityUtils;

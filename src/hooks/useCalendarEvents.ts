@@ -200,11 +200,13 @@ export function useCalendarEvents(
   }, [lastFetchedRange, dateRange, fetchEvents]);
 
   // Auto-fetch when dateRange changes
+  const startIso = dateRange?.start?.toISOString();
+  const endIso = dateRange?.end?.toISOString();
   useEffect(() => {
     if (dateRange && columns.length > 0) {
       fetchEvents(dateRange.start, dateRange.end);
     }
-  }, [dateRange?.start?.toISOString(), dateRange?.end?.toISOString(), columns.length, fetchEvents]);
+  }, [startIso, endIso, columns.length, fetchEvents, dateRange]);
 
   // Update card dates (for drag and drop)
   const updateCardDates = useCallback(async (

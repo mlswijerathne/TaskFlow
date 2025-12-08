@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase/client';
-import { Column, Card, ColumnWithCards, Label, BoardMember, BoardViewType, CardPriority } from '@/types/database';
+import { Column, Card, ColumnWithCards, Label, BoardMember, CardPriority } from '@/types/database';
 import { KanbanColumn } from './KanbanColumn';
 import { BoardSettingsModal } from './BoardSettingsModal';
 import { 
@@ -31,6 +31,7 @@ import { useBoardMembers, useBoardPresence, useBoardActivity, useViewState } fro
 import { OnlineUsersBar, TypingIndicator } from '@/components/presence';
 import { ActivitySidebar } from '@/components/activity';
 import { BoardViewToolbar, CalendarView, GanttView, TableView } from '@/components/views';
+import { ShareBoardButton, GenerateReportButton, BulkOperations } from '@/components/enterprise';
 
 interface BoardViewProps {
   boardId: string;
@@ -46,7 +47,7 @@ interface BoardMemberWithProfile extends BoardMember {
 }
 
 export function BoardView({ boardId }: BoardViewProps) {
-  const { user, session } = useAuth();
+  const { user } = useAuth();
   const [boardTitle, setBoardTitle] = useState('');
   const [columns, setColumns] = useState<ColumnWithCards[]>([]);
   const [labels, setLabels] = useState<Label[]>([]);
@@ -87,15 +88,15 @@ export function BoardView({ boardId }: BoardViewProps) {
       cards: column.cards.filter(card => {
         // Filter by labels
         if (filters.labels && filters.labels.length > 0) {
-          const cardLabels = card.label_ids || [];
-          if (!filters.labels.some(labelId => cardLabels.includes(labelId))) {
+          const cardLabelIds = card.labels?.map(l => l.id) || [];
+          if (!filters.labels.some(labelId => cardLabelIds.includes(labelId))) {
             return false;
           }
         }
         
         // Filter by assignees
         if (filters.assignees && filters.assignees.length > 0) {
-          if (!card.assignee_id || !filters.assignees.includes(card.assignee_id)) {
+          if (!card.assignee || !filters.assignees.includes(card.assignee)) {
             return false;
           }
         }
@@ -568,9 +569,6 @@ export function BoardView({ boardId }: BoardViewProps) {
     );
   }
 
-  // Check if user has access (is a member)
-  const hasAccess = currentUserRole !== null;
-
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
@@ -608,8 +606,29 @@ export function BoardView({ boardId }: BoardViewProps) {
           </div>
         </div>
 
-        {/* Right side: Online users, settings, activity */}
-        <div className="flex items-center gap-4">
+        {/* Right side: Enterprise features, Online users, settings, activity */}
+        <div className="flex items-center gap-2">
+          {/* Enterprise Features - only show for owners/editors */}
+          {(currentUserRole === 'owner' || currentUserRole === 'editor') && (
+            <>
+              <ShareBoardButton 
+                boardId={boardId} 
+                boardTitle={boardTitle}
+              />
+              
+              <GenerateReportButton 
+                boardIds={[boardId]}
+              />
+              
+              <BulkOperations 
+                boardId={boardId}
+                columnId={columns[0]?.id || ''}
+              />
+              
+              <div className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1" />
+            </>
+          )}
+          
           {/* Online Users */}
           <OnlineUsersBar onlineUsers={onlineUsers} />
 

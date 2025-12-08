@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Settings, Users, Shield, Loader2 } from 'lucide-react';
+import { X, Settings, Users, Shield } from 'lucide-react';
 import { useBoardMembers } from '@/hooks/useBoardMembers';
 import { MemberList, AddMemberInput } from '@/components/members';
 import { BoardMemberRole } from '@/types/database';

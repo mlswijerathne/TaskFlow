@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Card, Attachment, CardPriority } from '@/types/database';
 import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -64,11 +64,7 @@ export function CardDetailModal({ card, boardId, onClose, onUpdate, canEdit = tr
     deleteChecklistItem,
   } = useChecklists(card.id);
 
-  useEffect(() => {
-    fetchAttachments();
-  }, [card.id]);
-
-  const fetchAttachments = async () => {
+  const fetchAttachments = useCallback(async () => {
     const { data, error } = await supabase
       .from('attachments')
       .select('*')
@@ -78,7 +74,11 @@ export function CardDetailModal({ card, boardId, onClose, onUpdate, canEdit = tr
     if (!error && data) {
       setAttachments(data);
     }
-  };
+  }, [card.id]);
+
+  useEffect(() => {
+    fetchAttachments();
+  }, [fetchAttachments]);
 
   const handleSave = async () => {
     setSaving(true);

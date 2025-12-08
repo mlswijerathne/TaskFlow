@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Label, LABEL_COLORS } from '@/types/database';
-import { Edit2, Trash2, Plus, X, Loader2 } from 'lucide-react';
+import { Edit2, Trash2, Plus, Loader2 } from 'lucide-react';
 
 interface LabelManagerProps {
   labels: Label[];

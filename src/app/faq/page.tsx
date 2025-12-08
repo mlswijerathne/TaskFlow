@@ -196,7 +196,7 @@ export default function FAQPage() {
                 Frequently Asked Questions
               </h1>
               <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8">
-                Find answers to common questions about TaskFlow. Can't find what you're looking for? Contact our support team.
+                Find answers to common questions about TaskFlow. Can&apos;t find what you&apos;re looking for? Contact our support team.
               </p>
               
               {/* Search Bar */}
@@ -322,7 +322,7 @@ export default function FAQPage() {
                   Still have questions?
                 </h2>
                 <p className="text-lg text-blue-100 mb-8 max-w-xl mx-auto">
-                  Can't find the answer you're looking for? Our friendly support team is here to help.
+                  Can&apos;t find the answer you&apos;re looking for? Our friendly support team is here to help.
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Link

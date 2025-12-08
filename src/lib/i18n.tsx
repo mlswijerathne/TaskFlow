@@ -411,10 +411,12 @@ export const SUPPORTED_LOCALES: { code: Locale; name: string; nativeName: string
   { code: 'zh', name: 'Chinese', nativeName: '中文' },
 ];
 
-export default {
+const i18nUtils = {
   I18nProvider,
   useI18n,
   translate,
   detectLocale,
   SUPPORTED_LOCALES,
 };
+
+export default i18nUtils;

@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import { Card, Label, BoardMember, Column, CardPriority } from '@/types/database';
-import { useTableData, TableColumn, TableSortState, TableFilterState, TableCard } from '@/hooks/useTableData';
+import { useTableData, TableColumn, TableSortState, TableCard } from '@/hooks/useTableData';
 
 // ============================================================================
 // Types
@@ -160,7 +160,7 @@ function EditableCell({
   onEndEdit,
 }: EditableCellProps) {
   const inputRef = useRef<HTMLInputElement | HTMLSelectElement>(null);
-  const [localValue, setLocalValue] = useState(value?.toString() || '');
+  const [localValue, setLocalValue] = useState(() => value?.toString() || '');
 
   useEffect(() => {
     if (isEditing && inputRef.current) {
@@ -168,9 +168,11 @@ function EditableCell({
     }
   }, [isEditing]);
 
+  // Sync local value when prop value changes (but not on every render)
+  const valueStr = value?.toString() || '';
   useEffect(() => {
-    setLocalValue(value?.toString() || '');
-  }, [value]);
+    setLocalValue(valueStr);
+  }, [valueStr]);
 
   const handleBlur = useCallback(() => {
     if (localValue !== (value?.toString() || '')) {
@@ -272,7 +274,6 @@ interface TableHeaderProps {
   columns: TableColumn[];
   sortState: TableSortState | null;
   onSort: (columnId: string) => void;
-  hasSelection: boolean;
   isAllSelected: boolean;
   onSelectAll: () => void;
 }
@@ -281,7 +282,6 @@ function TableHeader({
   columns,
   sortState,
   onSort,
-  hasSelection,
   isAllSelected,
   onSelectAll,
 }: TableHeaderProps) {
@@ -496,7 +496,7 @@ function TableRow({
 export function TableView({
   boardId,
   columns: boardColumns,
-  labels,
+  labels: _labels,
   members,
   onCardClick,
   onCardUpdate,
@@ -737,7 +737,6 @@ export function TableView({
             columns={displayColumns}
             sortState={sortState}
             onSort={handleSort}
-            hasSelection={selectedRows.size > 0}
             isAllSelected={rows.length > 0 && selectedRows.size === rows.length}
             onSelectAll={handleSelectAll}
           />
