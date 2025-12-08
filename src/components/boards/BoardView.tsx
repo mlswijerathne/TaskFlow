@@ -31,6 +31,7 @@ import { useBoardMembers, useBoardPresence, useBoardActivity, useViewState } fro
 import { OnlineUsersBar, TypingIndicator } from '@/components/presence';
 import { ActivitySidebar } from '@/components/activity';
 import { BoardViewToolbar, CalendarView, GanttView, TableView } from '@/components/views';
+import { ShareBoardButton, GenerateReportButton, BulkOperations } from '@/components/enterprise';
 
 interface BoardViewProps {
   boardId: string;
@@ -605,8 +606,29 @@ export function BoardView({ boardId }: BoardViewProps) {
           </div>
         </div>
 
-        {/* Right side: Online users, settings, activity */}
-        <div className="flex items-center gap-4">
+        {/* Right side: Enterprise features, Online users, settings, activity */}
+        <div className="flex items-center gap-2">
+          {/* Enterprise Features - only show for owners/editors */}
+          {(currentUserRole === 'owner' || currentUserRole === 'editor') && (
+            <>
+              <ShareBoardButton 
+                boardId={boardId} 
+                boardTitle={boardTitle}
+              />
+              
+              <GenerateReportButton 
+                boardIds={[boardId]}
+              />
+              
+              <BulkOperations 
+                boardId={boardId}
+                columnId={columns[0]?.id || ''}
+              />
+              
+              <div className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1" />
+            </>
+          )}
+          
           {/* Online Users */}
           <OnlineUsersBar onlineUsers={onlineUsers} />
 
