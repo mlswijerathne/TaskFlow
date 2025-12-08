@@ -47,7 +47,8 @@ export function BulkOperations({ boardId, columnId }: BulkOperationsProps) {
     }
   };
 
-  const handleBulkMove = async (cardIds: string[], targetColumnId: string) => {
+  // Future feature: Bulk move cards between columns
+  /* const handleBulkMove = async (cardIds: string[], targetColumnId: string) => {
     setLoading(true);
     try {
       const result = await bulkMoveCards(boardId, cardIds, targetColumnId);
@@ -61,9 +62,10 @@ export function BulkOperations({ boardId, columnId }: BulkOperationsProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }; */
 
-  const handleBulkDelete = async (cardIds: string[]) => {
+  // Future feature: Bulk delete cards
+  /* const handleBulkDelete = async (cardIds: string[]) => {
     if (!confirm(`Are you sure you want to delete ${cardIds.length} cards? This cannot be undone.`)) {
       return;
     }
@@ -81,7 +83,7 @@ export function BulkOperations({ boardId, columnId }: BulkOperationsProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }; */
 
   return (
     <>

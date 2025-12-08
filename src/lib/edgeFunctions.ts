@@ -21,7 +21,7 @@ async function getAuthToken() {
 // Helper to make function calls
 async function callFunction<T>(
   functionName: string,
-  payload: any
+  payload: Record<string, unknown>
 ): Promise<T> {
   const token = await getAuthToken();
   
@@ -98,7 +98,7 @@ export interface ReportRequest {
 }
 
 export interface ReportResponse {
-  total_cards(arg0: string, total_cards: any): unknown;
+  total_cards(arg0: string, total_cards: number): unknown;
   success: boolean;
   generated_at: string;
   report_type: string;
@@ -163,7 +163,7 @@ export interface BatchOperation {
     priority?: 'low' | 'medium' | 'high' | 'critical';
     assignee?: string;
     due_date?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
@@ -209,7 +209,7 @@ export async function batchOperations(
 export interface WebhookEvent {
   event_type: 'card.created' | 'card.updated' | 'card.deleted' | 'board.created' | 'member.added';
   board_id: string;
-  payload: any;
+  payload: Record<string, unknown>;
   triggered_by: string;
 }
 
@@ -226,7 +226,7 @@ export interface WebhookResponse {
 export async function triggerWebhook(
   eventType: WebhookEvent['event_type'],
   boardId: string,
-  payload: any,
+  payload: Record<string, unknown>,
   triggeredBy: string
 ): Promise<WebhookResponse> {
   return callFunction<WebhookResponse>('webhook-integration', {
