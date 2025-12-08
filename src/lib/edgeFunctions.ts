@@ -98,6 +98,7 @@ export interface ReportRequest {
 }
 
 export interface ReportResponse {
+  total_cards(arg0: string, total_cards: any): unknown;
   success: boolean;
   generated_at: string;
   report_type: string;
